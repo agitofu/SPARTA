@@ -63,25 +63,35 @@ function openclose() {
         }
       }
 
-      $.ajax({
-  type: "GET",
-  url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
-  data: {},
-  success: function(response){
-    // 값 중 도봉구의 미세먼지 값만 가져오기
-    let dobong = response["RealtimeCityAir"]["row"][11];
-    let gu_name = dobong['MSRSTE_NM'];
-    let gu_mise = dobong['IDEX_MVL'];
-    $('#btn-posting-box').text(gu_name + ':' + gu_mise);
-  }
-})
-
 $(document).ready(function(){
+  $('#cards-box').html('');
   listing();
 });
 
 function listing() {
-  console.log('화면 로딩 후 잘 실행되었습니다');
+  $.ajax({
+    type: "GET",
+    url: "http://spartacodingclub.shop/post",
+    data: {},
+    success: function(response){
+       let articles = response['articles'];
+       for (let i = 0; i < articles.length; i++) {
+         make_card(articles[i]['comment'],articles[i]['desc'],articles[i]['image'],articles[i]['title'],articles[i]['url'])
+       }
+    }
+  })
+}
+
+function make_card(comment, desc, image, title, url) {
+  let temp_html = '<div class="card">\
+    <img class="card-img-top" src="'+image+'" alt="Card image cap">\
+    <div class="card-body">\
+      <a href="'+url+'" class="card-title">'+title+'</a>\
+      <p class="card-text">'+desc+'</p>\
+      <p class="card-text comment">'+comment+'</p>\
+    </div>\
+  </div>';
+  $('#cards-box').append(temp_html);
 }
 
 
@@ -109,7 +119,7 @@ function listing() {
       <button id="btn-posting-box" class="btn btn-primary btn-lg" href="#" onclick="openclose()" ">포스팅박스 열기</button>
       </p>
     </div>
-    <div class="form-post" id="posting-box">
+    <div class="form-post id="posting-box">
       <div>
         <div class="form-group">
           <label for="exampleFormControlInput1">아티클 URL</label>
@@ -122,7 +132,8 @@ function listing() {
         <button type="button" class="btn btn-primary" >기사저장</button>
       </div>
     </div>
-    <div class="card-columns">
+
+    <div id="cards-box" class="card-columns">
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
@@ -131,6 +142,7 @@ function listing() {
           <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
         </div>
       </div>
+
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
@@ -139,6 +151,7 @@ function listing() {
           <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
         </div>
       </div>
+
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
@@ -147,6 +160,7 @@ function listing() {
           <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
         </div>
       </div>
+
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
@@ -155,6 +169,7 @@ function listing() {
           <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
         </div>
       </div>
+
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
@@ -163,6 +178,7 @@ function listing() {
           <p class="card-text comment">여기에 코멘트가 들어갑니다.</p>
         </div>
       </div>
+
       <div class="card">
         <img class="card-img-top" src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg" alt="Card image cap">
         <div class="card-body">
